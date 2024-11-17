@@ -1,0 +1,80 @@
+# Benchmark Configuration
+general:
+  output_format: ["json", "html", "csv"]
+  parallel_runs: false
+  timeout_minutes: 60
+  memory_limit_gb: 32
+
+circuit_sizes:
+  small:
+    constraints: 1000
+    variables: 1000
+  medium:
+    constraints: 100000
+    variables: 100000
+  large:
+    constraints: 1000000
+    variables: 1000000
+
+operations:
+  - name: "ecdsa"
+    description: "ECDSA signature verification"
+    supported_systems: ["halo2", "plonky3", "miden", "risc0", "nexus", "aleo"]
+    
+  - name: "sha256"
+    description: "SHA-256 hash computation"
+    supported_systems: ["halo2", "plonky3", "miden", "risc0", "nexus", "aleo"]
+    
+  - name: "fibonacci"
+    description: "Fibonacci sequence computation"
+    supported_systems: ["halo2", "plonky3", "miden", "risc0", "nexus", "aleo"]
+
+systems:
+  halo2:
+    repo: "privacy-scaling-explorations/halo2"
+    commit: "0661f467cbf6655e8419876a7c743d4ce89e19e1"
+    build_command: "cargo build --release"
+    bench_command: "./target/release/bench"
+    
+  plonky3:
+    repo: "Plonky3/Plonky3"
+    commit: "02f9f5306761b638008e2aace86ee67695fa2062"
+    build_command: "cargo build --release"
+    bench_command: "./target/release/bench"
+    
+  miden:
+    repo: "0xPolygonMiden/miden-vm"
+    commit: "b13ed4d67c13d99d750d7b91293a91b0185cb84d"
+    build_command: "cargo build --release"
+    bench_command: "./target/release/bench"
+    
+  risc0:
+    repo: "risc0/risc0"
+    commit: "f1ecad14b84d92e989103aa3cc61108257703ad5"
+    build_command: "cargo build --release"
+    bench_command: "./target/release/bench"
+    
+  nexus:
+    repo: "nexus-xyz/nexus-zkvm"
+    commit: "f37401c477b680ce5334b2ca523ded8a7273d8c8"
+    build_command: "cargo build --release"
+    bench_command: "./target/release/bench"
+    
+  aleo:
+    repo: "AleoHQ/snarkVM"
+    commit: "dea322b3d374ac0fa7dae26cf006bf67acd52e9e"
+    build_command: "cargo build --release"
+    bench_command: "./target/release/bench"
+
+reporting:
+  plots:
+    - type: "bar"
+      metrics: ["proving_time", "verification_time", "proof_size"]
+    - type: "line"
+      metrics: ["memory_usage", "cpu_usage"]
+  tables:
+    - name: "summary"
+      metrics: ["avg_proving_time", "avg_verification_time", "avg_proof_size", "peak_memory"]
+    - name: "detailed"
+      metrics: ["all"]
+  export_formats: ["html", "pdf", "csv"]

@@ -1,0 +1,27 @@
+# Stop and remove any running containers
+docker ps -a
+docker stop <container_id>
+docker rm <container_id>
+
+# Remove the image
+docker rmi zkvm-benchmarking
+
+docker build -t zkvm-benchmarking .
+
+docker run -it -v $(pwd):/zkvm-benchmarking zkvm-benchmarking /bin/bash
+
+# Check repositories
+ls /zk-repos/
+# Should show: Plonky3  halo2  miden-vm  nexus-zkvm  risc0  snarkOS  snarkVM
+
+# Check your workspace
+ls /zkvm-benchmarking/
+# Should show: Dockerfile  config.yaml  requirements.txt  scripts
+
+# Navigate to halo2 directory
+cd /zkvm-benchmarking/scripts/benchmark-templates/halo2
+
+# Create new Rust project
+cargo new ecdsa_benchmark
+
+caro check

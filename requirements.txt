@@ -1,0 +1,11 @@
+pandas
+matplotlib
+psutil
+numpy
+seaborn
+jinja2
+tabulate
+pytest
+pytest-benchmark
+pytest-mock
+pytest-cov
